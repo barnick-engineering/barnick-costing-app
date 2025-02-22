@@ -74,7 +74,7 @@ export default function CostCalculator() {
 
   return (
     <div className="w-full max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-6">
-      <div className="mb-6 flex justify-between items-center">
+      <div className="mb-6 flex justify-center items-center mx-auto">
         <h1 className="text-2xl font-bold">Printing Cost Calculator</h1>
       </div>
 
