@@ -39,6 +39,7 @@ export default function CostCalculator() {
   const [printingCostPerSheet, setPrintingCostPerSheet] = useState(0);
   const [dyingCost, setDyingCost] = useState(0);
   const [additionalCost, setAdditionalCost] = useState(0);
+  const [perSheetBuyingCost, setPerSheetBuyingCost] = useState(0);
   const contentRef = useRef();
 
   const handleFloatInput = (setter) => (e) => {
@@ -57,7 +58,9 @@ export default function CostCalculator() {
       : 0;
 
   const totalPrintingCost = printingCostPerSheet * sheetRequired;
-  const totalCost = totalPrintingCost + dyingCost + additionalCost;
+  const totalSheetCost = perSheetBuyingCost * sheetRequired;
+  const totalCost =
+    totalPrintingCost + totalSheetCost + dyingCost + additionalCost;
   const costPerItem = itemOrdered > 0 ? totalCost / itemOrdered : 0;
 
   return (
@@ -126,6 +129,16 @@ export default function CostCalculator() {
               label="Printing Cost per Sheet"
               value={printingCostPerSheet}
               onChange={handleFloatInput(setPrintingCostPerSheet)}
+            />
+            <InputGroup
+              label="Per Sheet Buying Cost"
+              value={perSheetBuyingCost}
+              onChange={handleFloatInput(setPerSheetBuyingCost)}
+            />
+            <InputGroup
+              label="Total Sheet Cost"
+              value={totalSheetCost}
+              readOnly={true}
             />
           </div>
         </div>
