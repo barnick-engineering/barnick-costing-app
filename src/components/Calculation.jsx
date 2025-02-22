@@ -40,6 +40,7 @@ export default function CostCalculator() {
   const [dyingCost, setDyingCost] = useState(0);
   const [additionalCost, setAdditionalCost] = useState(0);
   const [perSheetBuyingCost, setPerSheetBuyingCost] = useState(0);
+  const [profitPercentage, setProfitPercentage] = useState(0);
   const contentRef = useRef();
 
   const handleFloatInput = (setter) => (e) => {
@@ -62,6 +63,14 @@ export default function CostCalculator() {
   const totalCost =
     totalPrintingCost + totalSheetCost + dyingCost + additionalCost;
   const costPerItem = itemOrdered > 0 ? totalCost / itemOrdered : 0;
+  const singlePriceAfterProfit =
+    costPerItem > 0 && profitPercentage > 0
+      ? costPerItem + costPerItem * (profitPercentage / 100)
+      : 0;
+  const totalPriceAfterProfit =
+    costPerItem > 0 && profitPercentage > 0
+      ? totalCost + totalCost * (profitPercentage / 100)
+      : 0;
 
   return (
     <div className="w-full max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-6">
@@ -160,19 +169,46 @@ export default function CostCalculator() {
           </div>
         </div>
 
+        <div className="bg-white rounded-lg border p-4">
+          <h2 className="text-lg font-semibold mb-4">Additional Costs</h2>
+          <div className="grid md:grid-cols-2 gap-4">
+            <InputGroup
+              label="Profit Margin"
+              value={profitPercentage}
+              onChange={handleFloatInput(setProfitPercentage)}
+            />
+          </div>
+        </div>
+
         {/* Total Cost Summary */}
         <div className="bg-gray-50 rounded-lg border p-4">
           <div className="grid md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <label className="text-lg font-semibold">Total Cost</label>
               <div className="text-3xl font-bold text-blue-600">
-                ${totalCost.toFixed(2)}
+                BDT {totalCost.toFixed(2)}
+              </div>
+            </div>
+            <div className="space-y-2">
+              <label className="text-lg font-semibold">
+                Total Cost After Profit
+              </label>
+              <div className="text-3xl font-bold text-blue-600">
+                BDT {totalPriceAfterProfit.toFixed(2)}
               </div>
             </div>
             <div className="space-y-2">
               <label className="text-lg font-semibold">Cost Per Item</label>
               <div className="text-3xl font-bold text-green-600">
-                ${costPerItem.toFixed(2)}
+                BDT {costPerItem.toFixed(2)}
+              </div>
+            </div>
+            <div className="space-y-2">
+              <label className="text-lg font-semibold">
+                Cost Per Item After Profit
+              </label>
+              <div className="text-3xl font-bold text-green-600">
+                BDT {singlePriceAfterProfit.toFixed(2)}
               </div>
             </div>
           </div>
